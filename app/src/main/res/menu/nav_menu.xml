@@ -3,8 +3,8 @@
     >
 
     <item
-        android:id="@+id/nav_home"
-        android:title="@string/home" />
+        android:id="@+id/nav_dashboard"
+        android:title="@string/dashboard" />
     <item
         android:id="@+id/nav_new_reminder"
         android:title="@string/new_reminder" />

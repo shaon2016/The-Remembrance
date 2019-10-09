@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -37,7 +38,7 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
     private val TAG = NewReminderFragment::class.java.simpleName
     private var mMap: GoogleMap? = null
     private var marker: Marker? = null
-    private var currentPlace : Place? = null
+    private var currentPlace: Place? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +58,13 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         setPlaceAutoCompleteFragment()
 
         btnGoToSetReminderPage.setOnClickListener {
-            startActivity(Intent(context!!, SetReminderActivity::class.java))
+            if (currentPlace != null) {
+                val intent = Intent(context!!, SetReminderActivity::class.java)
+                intent.putExtra("place", currentPlace)
+                startActivity(intent)
+            } else {
+                Toast.makeText(context!!, "You haven't selected a place", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -136,10 +143,13 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
             val tvPlaceWebsite = v.findViewById<TextView>(R.id.tvPlaceWebsite)
 
             tvPlaceName.text = String.format("Mobile:  ${currentPlace?.name ?: "Not Available"}")
-            tvPlaceAddress.text = String.format("Mobile:  ${currentPlace?.address ?: "Not Available"}")
-            tvPlaceMobile.text = String.format("Mobile:  ${currentPlace?.phoneNumber ?: "Not Available"}")
+            tvPlaceAddress.text =
+                String.format("Mobile:  ${currentPlace?.address ?: "Not Available"}")
+            tvPlaceMobile.text =
+                String.format("Mobile:  ${currentPlace?.phoneNumber ?: "Not Available"}")
             tvPlaceRating.text = String.format("Rating: ${currentPlace?.rating ?: "Not Available"}")
-            tvPlaceWebsite.text = String.format("Web: ${currentPlace?.websiteUri ?: "Not Available"}")
+            tvPlaceWebsite.text =
+                String.format("Web: ${currentPlace?.websiteUri ?: "Not Available"}")
         }
     }
 

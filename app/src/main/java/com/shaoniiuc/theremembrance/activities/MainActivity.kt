@@ -2,9 +2,8 @@ package com.shaoniiuc.theremembrance.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import com.shaoniiuc.theremembrance.R
-import com.shaoniiuc.theremembrance.fragments.HomeFragment
+import com.shaoniiuc.theremembrance.fragments.DashboardFragment
 import com.shaoniiuc.theremembrance.fragments.NewReminderFragment
 import com.shaoniiuc.theremembrance.helper.initFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         nav_view.setNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.nav_home -> {
+                R.id.nav_dashboard -> {
                     //initHomePage()
                     initNewReminderPage()
                     true
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initHomePage() {
-        initFragment(R.id.frameContainer, HomeFragment.newInstance())
+        initFragment(R.id.frameContainer, DashboardFragment.newInstance())
     }
 
 }
