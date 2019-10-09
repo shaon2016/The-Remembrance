@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.durbinlabs.googlemapmarkeranimation.DraggableMarkerActivity" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/draggableMarkerToolbar"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/white">
+
+        <fragment
+            android:id="@+id/autocomplete_support_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/centerMarkerByImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/marker_green"
+        android:visibility="gone" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/draggableMarkerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/btnFinalAddress"
+        android:padding="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_check_white_24dp" />
+</RelativeLayout>

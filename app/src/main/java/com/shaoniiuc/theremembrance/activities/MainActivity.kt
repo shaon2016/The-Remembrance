@@ -1,9 +1,11 @@
-package com.shaoniiuc.theremembrance
+package com.shaoniiuc.theremembrance.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.shaoniiuc.theremembrance.R
 import com.shaoniiuc.theremembrance.fragments.HomeFragment
+import com.shaoniiuc.theremembrance.fragments.NewReminderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +26,20 @@ class MainActivity : AppCompatActivity() {
                     initHomePage()
                     true
                 }
+                R.id.nav_new_reminder -> {
+                    initNewReminderPage()
+                    true
+                }
 
                 else -> false
             }
         }
 
 
+    }
+
+    private fun initNewReminderPage() {
+        initFragment(NewReminderFragment.newInstance())
     }
 
     private fun initHomePage() {
