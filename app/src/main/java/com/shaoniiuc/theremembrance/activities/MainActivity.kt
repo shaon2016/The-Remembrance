@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.shaoniiuc.theremembrance.R
 import com.shaoniiuc.theremembrance.fragments.HomeFragment
 import com.shaoniiuc.theremembrance.fragments.NewReminderFragment
+import com.shaoniiuc.theremembrance.helper.initFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -15,7 +16,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setNavView()
-        initHomePage()
+        //TODO remove the comment
+//        initHomePage()
+        initNewReminderPage()
+
     }
 
     private fun setNavView() {
@@ -23,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_home -> {
-                    initHomePage()
+                    //initHomePage()
+                    initNewReminderPage()
                     true
                 }
                 R.id.nav_new_reminder -> {
@@ -39,16 +44,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNewReminderPage() {
-        initFragment(NewReminderFragment.newInstance())
+        initFragment(R.id.frameContainer, NewReminderFragment.newInstance())
     }
 
     private fun initHomePage() {
-        initFragment(HomeFragment.newInstance())
+        initFragment(R.id.frameContainer, HomeFragment.newInstance())
     }
 
-    private fun initFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frameContainer, fragment)
-            .commit()
-    }
 }
