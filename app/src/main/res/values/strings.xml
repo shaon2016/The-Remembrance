@@ -3,7 +3,10 @@
     <string name="home">Home</string>
     <string name="new_reminder">New Reminder</string>
 
-<!--    TODO change the api key -->
+    <!--    TODO change the api key -->
     <string name="google_maps_key">AIzaSyCft-lmRqtZEbQQwIQDa3cn8MmwwjCXB9w</string>
-<!--    <string name="google_maps_key">AIzaSyCpgAIwh2L8uoFexKHD3-fwP88LxAT5ztI</string>-->
+    <string name="task">Task</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <!--    <string name="google_maps_key">AIzaSyCpgAIwh2L8uoFexKHD3-fwP88LxAT5ztI</string>-->
 </resources>

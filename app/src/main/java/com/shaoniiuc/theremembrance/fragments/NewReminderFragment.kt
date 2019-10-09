@@ -1,6 +1,7 @@
 package com.shaoniiuc.theremembrance.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -26,6 +27,8 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 
 import com.shaoniiuc.theremembrance.R
+import com.shaoniiuc.theremembrance.activities.SetReminderActivity
+import kotlinx.android.synthetic.main.fragment_new_reminder.*
 
 
 class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -52,6 +55,10 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         // Initialize Places.
         Places.initialize(context!!, getString(R.string.google_maps_key))
         setPlaceAutoCompleteFragment()
+
+        btnGoToSetReminderPage.setOnClickListener {
+            startActivity(Intent(context!!, SetReminderActivity::class.java))
+        }
     }
 
     private fun setPlaceAutoCompleteFragment() {

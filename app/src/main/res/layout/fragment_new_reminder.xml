@@ -40,7 +40,7 @@
         android:background="@color/colorAccent" />
 
     <ImageView
-        android:id="@+id/btnFinalAddress"
+        android:id="@+id/btnGoToSetReminderPage"
         android:padding="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
