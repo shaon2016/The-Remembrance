@@ -1,7 +1,9 @@
 package com.shaoniiuc.theremembrance.activities
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -44,6 +46,7 @@ class SetReminderActivity : AppCompatActivity() {
             Util.showShortToast(this, msg)
         })
         taskVM.isSaveSuccessful.observe(this, androidx.lifecycle.Observer {
+            setResult(Activity.RESULT_OK)
             finish()
         })
 

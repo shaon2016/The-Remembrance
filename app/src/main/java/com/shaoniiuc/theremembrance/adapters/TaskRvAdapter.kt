@@ -8,10 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shaoniiuc.theremembrance.R
+import com.shaoniiuc.theremembrance.helper.Util
 import com.shaoniiuc.theremembrance.models.Task
 
-class ReminderRvAdapter(val context: Context, val items: ArrayList<Task>) :
-    RecyclerView.Adapter<ReminderRvAdapter.MyReminderVH>() {
+class TaskRvAdapter(val context: Context, val items: ArrayList<Task>) :
+    RecyclerView.Adapter<TaskRvAdapter.MyReminderVH>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyReminderVH {
@@ -31,6 +32,21 @@ class ReminderRvAdapter(val context: Context, val items: ArrayList<Task>) :
 
     fun getItem(position: Int) = items[position]
 
+    fun addUniquely(tasks: java.util.ArrayList<Task>) {
+        val itemList = items
+        for (t in tasks) {
+            val id = t.id
+            val exists = itemList.any { it.id == id }
+            if (!exists)
+                add(t)
+        }
+    }
+
+   private fun add(t : Task) {
+        items.add(t)
+        notifyItemInserted(itemCount - 1)
+    }
+
     inner class MyReminderVH(v: View) : RecyclerView.ViewHolder(v) {
         private val tvTaskMsg = v.findViewById<TextView>(R.id.tvTaskMsg)
         private val tvTime = v.findViewById<TextView>(R.id.tvTime)
@@ -40,8 +56,8 @@ class ReminderRvAdapter(val context: Context, val items: ArrayList<Task>) :
 
         fun bind(t: Task) {
             tvTaskMsg.text = t.taskMsg
-            tvTime.text = t.taskMsg
-            tvDate.text = t.taskMsg
+            tvTime.text = Util.formatTime(t.time)
+            tvDate.text = Util.formatDate(t.date)
 
             ivEdit.setOnClickListener {
 

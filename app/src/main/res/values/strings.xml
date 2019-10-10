@@ -9,5 +9,7 @@
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
     <string name="dashboard">Dashboard</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
     <!--    <string name="google_maps_key">AIzaSyCpgAIwh2L8uoFexKHD3-fwP88LxAT5ztI</string>-->
 </resources>

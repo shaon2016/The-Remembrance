@@ -1,11 +1,14 @@
 package com.shaoniiuc.theremembrance.fragments
 
 
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,12 +32,13 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 
 import com.shaoniiuc.theremembrance.R
 import com.shaoniiuc.theremembrance.activities.SetReminderActivity
+import com.shaoniiuc.theremembrance.helper.SimplestCallback
 import kotlinx.android.synthetic.main.fragment_new_reminder.*
 
 
 class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-
+    private val NEW_REMINDER_REQUEST = 212
     private val TAG = NewReminderFragment::class.java.simpleName
     private var mMap: GoogleMap? = null
     private var marker: Marker? = null
@@ -61,7 +65,7 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
             if (currentPlace != null) {
                 val intent = Intent(context!!, SetReminderActivity::class.java)
                 intent.putExtra("place", currentPlace)
-                startActivity(intent)
+                startActivityForResult(intent, NEW_REMINDER_REQUEST)
             } else {
                 Toast.makeText(context!!, "You haven't selected a place", Toast.LENGTH_LONG).show()
             }
@@ -108,7 +112,6 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         mMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
-
     override fun onMapReady(map: GoogleMap?) {
         map?.let {
             mMap = map
@@ -154,9 +157,15 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance() = NewReminderFragment()
+
+        var loadDashboardFragmentCallback: SimplestCallback? = null
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == NEW_REMINDER_REQUEST && resultCode == Activity.RESULT_OK) {
+            loadDashboardFragmentCallback?.justSayMe()
+        }
+    }
 }

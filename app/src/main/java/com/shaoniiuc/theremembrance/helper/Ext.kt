@@ -15,3 +15,8 @@ fun AppCompatActivity.initFragment(container : Int, fragment: Fragment) {
 fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
     ViewModelProviders.of(this,
         ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(viewModelClass)
+
+fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>) =
+    ViewModelProviders.of(this,
+        ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application)).get(viewModelClass)
+

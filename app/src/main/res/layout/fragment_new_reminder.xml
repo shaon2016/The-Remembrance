@@ -14,8 +14,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_below="@+id/draggableMarkerToolbar"
-        android:layout_marginTop="24dp"
         android:background="@android:color/white">
 
         <fragment
@@ -25,25 +23,13 @@
             android:layout_height="match_parent"/>
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/centerMarkerByImageView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/marker_green"
-        android:visibility="gone" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/draggableMarkerToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent" />
-
-    <ImageView
-        android:id="@+id/btnGoToSetReminderPage"
-        android:padding="16dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check_white_24dp"
+        android:id="@+id/btnGoToSetReminderPage"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_check_white_24dp" />
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>
