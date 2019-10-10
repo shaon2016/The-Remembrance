@@ -2,17 +2,21 @@ package com.shaoniiuc.theremembrance.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.work.*
 import com.google.android.libraries.places.api.model.Place
 import com.shaoniiuc.theremembrance.data.AppDb
 import com.shaoniiuc.theremembrance.helper.Util
 import com.shaoniiuc.theremembrance.models.Task
+import com.shaoniiuc.theremembrance.services.TaskScheduleWorker
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class TaskVM(application: Application) : AndroidViewModel(application) {
     private val db = AppDb.getInstance(application.applicationContext)
@@ -26,13 +30,13 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
     var hour = MutableLiveData<Int>()
     var min = MutableLiveData<Int>()
 
-    var formattedDate  = MutableLiveData<String>()
-    var formattedTime  = MutableLiveData<String>()
+    var formattedDate = MutableLiveData<String>()
+    var formattedTime = MutableLiveData<String>()
 
-    var isSaveSuccessful  = MutableLiveData<Boolean>()
+    var isSaveSuccessful = MutableLiveData<Boolean>()
 
     private val toastLive_ = MutableLiveData<String>()
-    val toastLive :LiveData<String> = toastLive_
+    val toastLive: LiveData<String> = toastLive_
 
     init {
         val calendar = Calendar.getInstance()
@@ -51,15 +55,49 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
             initTask()
             Observable.fromCallable {
                 db.taskDao().insert(taskLive.value!!)
+                scheduleReminder()
             }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     toastLive_.value = "Reminder Successfully Posted"
                     isSaveSuccessful.value = true
                 }
-        }
+        } else toastLive_.value = "Insert Task Message"
+    }
 
-        else toastLive_.value = "Insert Task Message"
+    private fun scheduleReminder() {
+        //Setting Schedule before 24 hours
+        val _24HrBack = Util._24HrBack(getTaskTimeInMillis())
+        //This checking is required, to avoid immidiate fire of the work
+        if (_24HrBack > System.currentTimeMillis())
+            createRequest(_24HrBack)
+        //Setting Schedule for exact time
+        if (getTaskTimeInMillis() > System.currentTimeMillis())
+            createRequest(getTaskTimeInMillis())
+
+    }
+
+    private fun createRequest(initialDelay: Long) {
+        val wManager = WorkManager.getInstance(getApplication())
+        val dataBuilder = Data.Builder()
+        val task = taskLive.value!!
+        dataBuilder.putString("place_name", task.placeName)
+        dataBuilder.putString("task_msg", task.taskMsg)
+        val data = dataBuilder.build()
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+            .build()
+
+        val diff = initialDelay - System.currentTimeMillis()
+        val request = OneTimeWorkRequest.Builder(TaskScheduleWorker::class.java)
+            .setInputData(data)
+            .setConstraints(constraints)
+            .setInitialDelay(diff, TimeUnit.MILLISECONDS)
+            .build()
+
+        wManager.enqueue(request)
+
     }
 
     private fun isValidate() = !taskMsgLive.value.isNullOrEmpty() && placeLive.value != null
@@ -88,17 +126,16 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
     }
 
     private fun setFormattedDateAndTime() {
-        getTimeInMillis()
-
-        formattedDate.value = Util.formatDate(getTimeInMillis())
-        formattedTime.value = Util.formatTime(getTimeInMillis())
-
+        formattedDate.value = Util.formatDate(getTaskTimeInMillis())
+        formattedTime.value = Util.formatTime(getTaskTimeInMillis())
 
     }
 
-    private fun getTimeInMillis(): Long {
-        val calendar = GregorianCalendar(year.value!!, month.value!!, day.value!!, hour.value!!,
-            min.value!!)
+    private fun getTaskTimeInMillis(): Long {
+        val calendar = GregorianCalendar(
+            year.value!!, month.value!!, day.value!!, hour.value!!,
+            min.value!!
+        )
 
         return calendar.timeInMillis
     }
@@ -106,8 +143,8 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
     private fun initTask() {
         val task = Task()
         task.taskMsg = taskMsgLive.value!!
-        task.date = getTimeInMillis()
-        task.time = getTimeInMillis()
+        task.date = getTaskTimeInMillis()
+        task.time = getTaskTimeInMillis()
         val place = placeLive.value
         task.placeName = place?.name ?: "Not Available"
         task.placeAddress = place?.address ?: "Not Available"

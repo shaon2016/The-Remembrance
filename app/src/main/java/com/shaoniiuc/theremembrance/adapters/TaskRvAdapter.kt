@@ -51,7 +51,6 @@ class TaskRvAdapter(val context: Context, val items: ArrayList<Task>) :
         private val tvTaskMsg = v.findViewById<TextView>(R.id.tvTaskMsg)
         private val tvTime = v.findViewById<TextView>(R.id.tvTime)
         private val tvDate = v.findViewById<TextView>(R.id.tvDate)
-        private val ivEdit = v.findViewById<ImageView>(R.id.ivEdit)
         private val ivDelete = v.findViewById<ImageView>(R.id.ivDelete)
 
         fun bind(t: Task) {
@@ -59,9 +58,6 @@ class TaskRvAdapter(val context: Context, val items: ArrayList<Task>) :
             tvTime.text = Util.formatTime(t.time)
             tvDate.text = Util.formatDate(t.date)
 
-            ivEdit.setOnClickListener {
-
-            }
             ivDelete.setOnClickListener {
 
             }

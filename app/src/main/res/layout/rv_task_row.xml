@@ -65,16 +65,6 @@
 
 
         <ImageView
-            android:id="@+id/ivEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:src="@drawable/ic_mode_edit_deep_purple_300_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivDelete"
-            app:layout_constraintTop_toTopOf="@+id/ivDelete" />
-
-        <ImageView
             android:id="@+id/ivDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

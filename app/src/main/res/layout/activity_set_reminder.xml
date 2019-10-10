@@ -17,14 +17,14 @@
             android:layout_marginStart="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/task"
+            android:text="@string/reminder_message"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <EditText
             android:id="@+id/evTaskMsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/task"
+            android:hint="@string/reminder_message"
             android:maxLines="2" />
 
         <LinearLayout
