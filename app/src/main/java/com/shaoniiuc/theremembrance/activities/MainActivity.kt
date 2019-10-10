@@ -30,9 +30,10 @@ class MainActivity : AppCompatActivity() {
     private fun configureToolbar() {
         setSupportActionBar(toolbar)
         val actionbar = supportActionBar
-        actionbar!!.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
-        actionbar.setDisplayHomeAsUpEnabled(true)
-        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+        actionbar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
+        actionbar?.setDisplayHomeAsUpEnabled(true)
+        actionbar?.title = getString(R.string.dashboard)
+        toolbar?.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
     }
 
     private fun setNavView() {
@@ -50,6 +51,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_new_reminder -> {
                     drawer_layout.closeDrawer(Gravity.LEFT)
                     initNewReminderPage()
+                    true
+                }
+                R.id.nav_exit -> {
+                    finish()
                     true
                 }
 

@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TimePicker
+import androidx.core.content.ContextCompat
 import com.google.android.libraries.places.api.model.Place
 import com.shaoniiuc.theremembrance.R
 import com.shaoniiuc.theremembrance.helper.Util
 import com.shaoniiuc.theremembrance.helper.obtainViewModel
-import com.shaoniiuc.theremembrance.models.Task
 import com.shaoniiuc.theremembrance.viewmodels.TaskVM
 import kotlinx.android.synthetic.main.activity_set_reminder.*
-import java.util.*
+import kotlinx.android.synthetic.main.my_toolbar.*
 
 class SetReminderActivity : AppCompatActivity() {
     private lateinit var place: Place
@@ -51,7 +51,20 @@ class SetReminderActivity : AppCompatActivity() {
         })
 
         handleBtn()
+        configureToolbar()
     }
+
+    private fun configureToolbar() {
+        setSupportActionBar(toolbar)
+        val actionbar = supportActionBar
+        actionbar?.setHomeAsUpIndicator(R.drawable.ic_keyboard_backspace_white_24dp)
+        actionbar?.setDisplayHomeAsUpEnabled(true)
+        actionbar?.title = getString(R.string.set_reminder)
+        toolbar?.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+        toolbar?.setNavigationOnClickListener { v -> onBackPressed() }
+
+    }
+
 
     private fun handleBtn() {
         btnDate.setOnClickListener {

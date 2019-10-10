@@ -9,13 +9,24 @@
     android:orientation="vertical">
 
     <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:layout_marginStart="4dp"
         android:id="@+id/tvTaskMsg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:ellipsize="end"
-        android:maxLines="2" />
+        android:maxLines="2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="18sp" />
+
+    <TextView
+        android:textSize="15sp"
+        android:id="@+id/tvPlaceName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -8,5 +8,8 @@
     <item
         android:id="@+id/nav_new_reminder"
         android:title="@string/new_reminder" />
+    <item
+        android:id="@+id/nav_exit"
+        android:title="@string/exit" />
 
 </menu>

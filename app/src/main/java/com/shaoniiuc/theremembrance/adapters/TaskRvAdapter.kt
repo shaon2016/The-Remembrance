@@ -35,7 +35,7 @@ class TaskRvAdapter(
         holder.bind(getItem(position))
     }
 
-    fun getItem(position: Int) = items[position]
+    private fun getItem(position: Int) = items[position]
 
     fun addUniquely(tasks: java.util.ArrayList<Task>) {
         val itemList = items
@@ -54,12 +54,14 @@ class TaskRvAdapter(
 
     inner class MyReminderVH(v: View) : RecyclerView.ViewHolder(v) {
         private val tvTaskMsg = v.findViewById<TextView>(R.id.tvTaskMsg)
+        private val tvPlaceName = v.findViewById<TextView>(R.id.tvPlaceName)
         private val tvTime = v.findViewById<TextView>(R.id.tvTime)
         private val tvDate = v.findViewById<TextView>(R.id.tvDate)
         private val ivDelete = v.findViewById<ImageView>(R.id.ivDelete)
 
         fun bind(t: Task) {
             tvTaskMsg.text = t.taskMsg
+            tvPlaceName.text = t.placeName
             tvTime.text = Util.formatTime(t.time)
             tvDate.text = Util.formatDate(t.date)
 
