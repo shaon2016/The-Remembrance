@@ -10,8 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shaoniiuc.theremembrance.R
 import com.shaoniiuc.theremembrance.helper.Util
 import com.shaoniiuc.theremembrance.models.Task
+import com.shaoniiuc.theremembrance.viewmodels.DashVM
 
-class TaskRvAdapter(val context: Context, val items: ArrayList<Task>) :
+class TaskRvAdapter(
+    val context: Context,
+    val items: ArrayList<Task>,
+    val dashVM: DashVM
+) :
     RecyclerView.Adapter<TaskRvAdapter.MyReminderVH>() {
 
 
@@ -42,7 +47,7 @@ class TaskRvAdapter(val context: Context, val items: ArrayList<Task>) :
         }
     }
 
-   private fun add(t : Task) {
+    private fun add(t: Task) {
         items.add(t)
         notifyItemInserted(itemCount - 1)
     }
@@ -59,7 +64,9 @@ class TaskRvAdapter(val context: Context, val items: ArrayList<Task>) :
             tvDate.text = Util.formatDate(t.date)
 
             ivDelete.setOnClickListener {
-
+                dashVM.delete(t)
+                items.remove(t)
+                notifyDataSetChanged()
             }
         }
 

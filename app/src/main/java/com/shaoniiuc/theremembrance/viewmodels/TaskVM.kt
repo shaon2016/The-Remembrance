@@ -2,7 +2,6 @@ package com.shaoniiuc.theremembrance.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -49,32 +48,46 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
         setFormattedDateAndTime()
     }
 
-    @SuppressLint("CheckResult")
     fun insert() {
         if (isValidate()) {
             initTask()
-            Observable.fromCallable {
-                db.taskDao().insert(taskLive.value!!)
-                scheduleReminder()
-            }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    toastLive_.value = "Reminder Successfully Posted"
-                    isSaveSuccessful.value = true
-                }
+            scheduleReminder()
+            insertTask()
         } else toastLive_.value = "Insert Task Message"
     }
 
+    @SuppressLint("CheckResult")
+    private fun insertTask() {
+        Observable.fromCallable {
+            db.taskDao().insert(taskLive.value!!)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                toastLive_.value = "Reminder Successfully Posted"
+                isSaveSuccessful.value = true
+            }
+    }
+
+    private fun updateDb() {
+        Thread {
+            db.taskDao().insert(taskLive.value!!)
+        }.start()
+    }
+
     private fun scheduleReminder() {
+        val task = taskLive.value!!
         //Setting Schedule before 24 hours
         val _24HrBack = Util._24HrBack(getTaskTimeInMillis())
         //This checking is required, to avoid immidiate fire of the work
         if (_24HrBack > System.currentTimeMillis())
-            createRequest(_24HrBack)
+             createRequest(_24HrBack)
         //Setting Schedule for exact time
         if (getTaskTimeInMillis() > System.currentTimeMillis())
-            createRequest(getTaskTimeInMillis())
+             createRequest(getTaskTimeInMillis())
 
+        taskLive.value = task
+
+        //updateDb()
     }
 
     private fun createRequest(initialDelay: Long) {
@@ -92,12 +105,12 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
         val diff = initialDelay - System.currentTimeMillis()
         val request = OneTimeWorkRequest.Builder(TaskScheduleWorker::class.java)
             .setInputData(data)
+            .addTag(task.placeWeb)
             .setConstraints(constraints)
             .setInitialDelay(diff, TimeUnit.MILLISECONDS)
             .build()
 
         wManager.enqueue(request)
-
     }
 
     private fun isValidate() = !taskMsgLive.value.isNullOrEmpty() && placeLive.value != null

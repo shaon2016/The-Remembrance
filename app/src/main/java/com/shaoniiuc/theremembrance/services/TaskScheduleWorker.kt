@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -17,7 +18,15 @@ import com.shaoniiuc.theremembrance.activities.MainActivity
 class TaskScheduleWorker(val context: Context, workParam: WorkerParameters) :
     Worker(context, workParam) {
 
+    override fun onStopped() {
+        super.onStopped()
+
+        Log.d("DATATAG", "Stopped")
+    }
+
     override fun doWork(): Result {
+        Log.d("DATATAG", "Executed")
+
         val placeName = inputData.getString("place_name")
         val taskMsg = inputData.getString("task_msg")
 

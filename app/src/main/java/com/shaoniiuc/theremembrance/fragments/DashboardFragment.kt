@@ -1,12 +1,10 @@
 package com.shaoniiuc.theremembrance.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -38,7 +36,7 @@ class DashboardFragment : Fragment() {
 
     private fun initVar() {
         dashVM = obtainViewModel(DashVM::class.java)
-        adapter = TaskRvAdapter(context!!, ArrayList())
+        adapter = TaskRvAdapter(context!!, ArrayList(),dashVM)
     }
 
     private fun initView() {
