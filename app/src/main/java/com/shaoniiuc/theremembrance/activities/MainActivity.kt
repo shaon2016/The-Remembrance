@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -32,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         val actionbar = supportActionBar
         actionbar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
         actionbar?.setDisplayHomeAsUpEnabled(true)
-        actionbar?.title = getString(R.string.dashboard)
         toolbar?.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
     }
 
@@ -64,18 +65,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNewReminderPage() {
+        supportActionBar?.title = getString(R.string.pick_a_place)
         initFragment(R.id.frameContainer, NewReminderFragment.newInstance())
     }
 
     private fun initDashboardPage() {
+        supportActionBar?.title = getString(R.string.dashboard)
         initFragment(R.id.frameContainer, DashboardFragment.newInstance())
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
     /** Override to implement drawer listener*/
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             drawer_layout.openDrawer(GravityCompat.START)
+            return true
+        } else if (item.itemId == R.id.menu_reminders_map) {
+            startActivity(Intent(this, RemindersMapActivity::class.java))
             return true
         }
 

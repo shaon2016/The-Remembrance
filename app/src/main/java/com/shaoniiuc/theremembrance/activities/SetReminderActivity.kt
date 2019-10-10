@@ -62,7 +62,6 @@ class SetReminderActivity : AppCompatActivity() {
         actionbar?.title = getString(R.string.set_reminder)
         toolbar?.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         toolbar?.setNavigationOnClickListener { v -> onBackPressed() }
-
     }
 
 

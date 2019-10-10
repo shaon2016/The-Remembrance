@@ -2,26 +2,20 @@ package com.shaoniiuc.theremembrance.fragments
 
 
 import android.app.Activity
-import android.app.Instrumentation
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -32,6 +26,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 
 import com.shaoniiuc.theremembrance.R
 import com.shaoniiuc.theremembrance.activities.SetReminderActivity
+import com.shaoniiuc.theremembrance.helper.MapUtil
 import com.shaoniiuc.theremembrance.helper.SimplestCallback
 import kotlinx.android.synthetic.main.fragment_new_reminder.*
 
@@ -44,11 +39,15 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
     private var marker: Marker? = null
     private var currentPlace: Place? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_new_reminder, container, false)
     }
 
@@ -96,7 +95,7 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
                 place.latLng?.let {
                     currentPlace = place
                     addMarker(it, place.name ?: "")
-                    updateCameraPos(it)
+                    MapUtil.updateCameraPos(mMap, it)
                 }
             }
 
@@ -106,11 +105,6 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         })
     }
 
-    private fun updateCameraPos(latlng: LatLng) {
-        val cameraPosition = CameraPosition.Builder().target(latlng).zoom(12f)
-            .build()
-        mMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-    }
 
     override fun onMapReady(map: GoogleMap?) {
         map?.let {
@@ -167,5 +161,11 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
         if (requestCode == NEW_REMINDER_REQUEST && resultCode == Activity.RESULT_OK) {
             loadDashboardFragmentCallback?.justSayMe()
         }
+    }
+
+
+    /** Override to hide menu reminders map menu*/
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.menu_reminders_map)?.isVisible = false
     }
 }

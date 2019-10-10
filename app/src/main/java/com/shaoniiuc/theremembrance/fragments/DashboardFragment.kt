@@ -1,18 +1,20 @@
 package com.shaoniiuc.theremembrance.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.*
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.shaoniiuc.theremembrance.R
+import com.shaoniiuc.theremembrance.activities.RemindersMapActivity
 import com.shaoniiuc.theremembrance.adapters.TaskRvAdapter
 import com.shaoniiuc.theremembrance.helper.obtainViewModel
 import com.shaoniiuc.theremembrance.models.Task
 import com.shaoniiuc.theremembrance.viewmodels.DashVM
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -36,7 +38,7 @@ class DashboardFragment : Fragment() {
 
     private fun initVar() {
         dashVM = obtainViewModel(DashVM::class.java)
-        adapter = TaskRvAdapter(context!!, ArrayList(),dashVM)
+        adapter = TaskRvAdapter(context!!, ArrayList(), dashVM)
     }
 
     private fun initView() {
@@ -44,9 +46,13 @@ class DashboardFragment : Fragment() {
         rvTasks.adapter = adapter
 
         dashVM.taskLive.observe(this, Observer { tasks ->
-            adapter.addUniquely(tasks as java.util.ArrayList<Task>)
+            if (!tasks.isNullOrEmpty())
+                adapter.addUniquely(tasks as java.util.ArrayList<Task>)
+            else tvNoTaskMsg.visibility = View.VISIBLE
         })
     }
+
+
 
 
     companion object {

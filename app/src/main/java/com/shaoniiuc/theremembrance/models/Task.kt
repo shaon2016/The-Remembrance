@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Task(
-
     @ColumnInfo(name = "msg")
     var taskMsg: String = "",
     var time: Long = 0,
@@ -21,6 +20,8 @@ data class Task(
     var placeRating: String = "",
     @ColumnInfo(name = "place_web")
     var placeWeb: String = "",
+    var lat : Double = 0.0,
+    var lon : Double = 0.0,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 )

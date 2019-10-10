@@ -68,12 +68,6 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    private fun updateDb() {
-        Thread {
-            db.taskDao().insert(taskLive.value!!)
-        }.start()
-    }
-
     private fun scheduleReminder() {
         val task = taskLive.value!!
         //Setting Schedule before 24 hours
@@ -164,6 +158,8 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
         task.placeMobile = place?.phoneNumber ?: "Not Available"
         task.placeRating = String.format("${place?.rating ?: "Not Available"}")
         task.placeWeb = String.format("${place?.websiteUri ?: "Not Available"}")
+        task.lat = place?.latLng?.latitude ?: 0.0
+        task.lon = place?.latLng?.longitude ?: 0.0
 
         taskLive.value = task
     }
