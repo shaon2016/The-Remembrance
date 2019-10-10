@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.TimePicker
 import com.google.android.libraries.places.api.model.Place
 import com.shaoniiuc.theremembrance.R
+import com.shaoniiuc.theremembrance.helper.Util
 import com.shaoniiuc.theremembrance.helper.obtainViewModel
 import com.shaoniiuc.theremembrance.models.Task
 import com.shaoniiuc.theremembrance.viewmodels.TaskVM
@@ -33,6 +34,18 @@ class SetReminderActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        taskVM.formattedTime.observe(this, androidx.lifecycle.Observer {
+            btnTime.text = it
+        })
+        taskVM.formattedDate.observe(this, androidx.lifecycle.Observer {
+            btnDate.text = it
+        })
+        taskVM.toastLive.observe(this, androidx.lifecycle.Observer {msg->
+            Util.showShortToast(this, msg)
+        })
+        taskVM.isSaveSuccessful.observe(this, androidx.lifecycle.Observer {
+            finish()
+        })
 
         handleBtn()
     }
@@ -53,7 +66,7 @@ class SetReminderActivity : AppCompatActivity() {
         }
 
         btnCancel.setOnClickListener {
-
+            finish()
         }
     }
 

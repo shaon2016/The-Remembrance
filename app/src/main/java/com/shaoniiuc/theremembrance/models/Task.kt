@@ -9,8 +9,8 @@ data class Task(
 
     @ColumnInfo(name = "msg")
     var taskMsg: String = "",
-    var time: String = "",
-    var date: String = "",
+    var time: Long = 0,
+    var date: Long = 0,
     @ColumnInfo(name = "place_name")
     var placeName: String = "",
     @ColumnInfo(name = "place_address")
