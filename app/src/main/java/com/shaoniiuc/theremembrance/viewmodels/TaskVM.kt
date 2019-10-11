@@ -42,7 +42,7 @@ class TaskVM(application: Application) : AndroidViewModel(application) {
         year.value = calendar.get(Calendar.YEAR)
         month.value = calendar.get(Calendar.MONTH)
         day.value = calendar.get(Calendar.DAY_OF_MONTH)
-        hour.value = calendar.get(Calendar.HOUR)
+        hour.value = calendar.get(Calendar.HOUR_OF_DAY)
         min.value = calendar.get(Calendar.MINUTE)
 
         setFormattedDateAndTime()

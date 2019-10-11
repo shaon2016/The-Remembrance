@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.shaoniiuc.theremembrance.R
 import com.shaoniiuc.theremembrance.helper.Util
 import com.shaoniiuc.theremembrance.models.Task
@@ -69,6 +72,29 @@ class TaskRvAdapter(
                 dashVM.delete(t)
                 items.remove(t)
                 notifyDataSetChanged()
+            }
+
+            itemView.setOnClickListener {
+                showPlaceDetails(t)
+            }
+        }
+
+        private fun showPlaceDetails(t: Task) {
+            MaterialDialog(context).show {
+                customView(R.layout.dialog_place_details)
+                val v = getCustomView()
+
+                val tvPlaceName = v.findViewById<TextView>(R.id.tvPlaceName)
+                val tvPlaceAddress = v.findViewById<TextView>(R.id.tvPlaceAddress)
+                val tvPlaceMobile = v.findViewById<TextView>(R.id.tvPlaceMobile)
+                val tvPlaceRating = v.findViewById<TextView>(R.id.tvPlaceRating)
+                val tvPlaceWebsite = v.findViewById<TextView>(R.id.tvPlaceWebsite)
+
+                tvPlaceName.text = t.placeName
+                tvPlaceAddress.text = t.placeAddress
+                tvPlaceMobile.text = t.placeMobile
+                tvPlaceRating.text = t.placeRating
+                tvPlaceWebsite.text = t.placeWeb
             }
         }
 

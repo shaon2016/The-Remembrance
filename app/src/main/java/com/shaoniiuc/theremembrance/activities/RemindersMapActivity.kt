@@ -44,7 +44,7 @@ class RemindersMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.
 
         initMap()
         remindersMapVM.tasksLive.observe(this, Observer { tasks ->
-            tasks?.let {
+            if (!tasks.isNullOrEmpty()) {
                 val latllngs = ArrayList<LatLng>()
                 tasks.forEach { t ->
                     latllngs.add(LatLng(t.lat, t.lon))

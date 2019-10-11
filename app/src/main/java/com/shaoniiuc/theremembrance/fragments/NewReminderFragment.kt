@@ -4,6 +4,7 @@ package com.shaoniiuc.theremembrance.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -52,9 +53,13 @@ class NewReminderFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerCl
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val mapFragment = childFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment!!.getMapAsync(this)
+        // Keeps it in a handler coz
+        // It takes too much memory to load that freeze the memory
+        Handler().postDelayed( {
+            val mapFragment = childFragmentManager
+                .findFragmentById(R.id.map) as SupportMapFragment?
+            mapFragment!!.getMapAsync(this)
+        }, 500)
 
         // Initialize Places.
         Places.initialize(context!!, getString(R.string.google_maps_key))

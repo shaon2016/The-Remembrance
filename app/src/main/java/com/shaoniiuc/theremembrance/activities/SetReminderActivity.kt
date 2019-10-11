@@ -91,7 +91,7 @@ class SetReminderActivity : AppCompatActivity() {
             TimePickerDialog.OnTimeSetListener { picker, h, m ->
                 taskVM.setTime(h, m)
             }, taskVM.hour.value!!,
-            taskVM.min.value!!, true
+            taskVM.min.value!!,false
         ).show()
     }
 
